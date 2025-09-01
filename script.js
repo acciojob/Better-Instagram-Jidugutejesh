@@ -1,31 +1,28 @@
-//your code here
-const images = document.querySelectorAll(".image");
 let draggedDiv = null;
 
-images.forEach((img) => {
-  img.addEventListener("dragstart", (e) => {
-    draggedDiv = e.target;
+document.querySelectorAll(".image").forEach(div => {
+  div.addEventListener("dragstart", function () {
+    draggedDiv = this;
+    this.classList.add("selected");
   });
 
-  img.addEventListener("dragover", (e) => {
+  div.addEventListener("dragend", function () {
+    this.classList.remove("selected");
+  });
+
+  div.addEventListener("dragover", function (e) {
     e.preventDefault();
-    img.classList.add("over");
   });
 
-  img.addEventListener("dragleave", () => {
-    img.classList.remove("over");
-  });
-
-  img.addEventListener("drop", (e) => {
+  div.addEventListener("drop", function (e) {
     e.preventDefault();
-    img.classList.remove("over");
+    if (draggedDiv !== this) {
+      let parent = this.parentNode;
+      let draggedNext = draggedDiv.nextSibling;
+      let droppedNext = this.nextSibling;
 
-    if (draggedDiv && draggedDiv !== img) {
-      // Swap background images
-      const temp = draggedDiv.style.backgroundImage;
-      draggedDiv.style.backgroundImage = img.style.backgroundImage;
-      img.style.backgroundImage = temp;
+      parent.insertBefore(draggedDiv, droppedNext);
+      parent.insertBefore(this, draggedNext);
     }
   });
 });
-
