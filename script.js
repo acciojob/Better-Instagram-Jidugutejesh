@@ -1,23 +1,25 @@
+// Assign drag IDs to match Cypress expectations
+document.querySelectorAll(".image").forEach((div, index) => {
+  div.setAttribute("id", `drag${index + 1}`);
+});
+
+// Add event listeners
 let draggedDiv = null;
 
 document.querySelectorAll(".image").forEach(div => {
-  // Drag start
   div.addEventListener("dragstart", function () {
     draggedDiv = this;
     this.classList.add("selected");
   });
 
-  // Drag end
   div.addEventListener("dragend", function () {
     this.classList.remove("selected");
   });
 
-  // Allow drop
   div.addEventListener("dragover", function (e) {
     e.preventDefault();
   });
 
-  // Swap background images
   div.addEventListener("drop", function (e) {
     e.preventDefault();
     if (draggedDiv !== this) {
