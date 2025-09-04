@@ -2,12 +2,10 @@ const boxes = document.querySelectorAll(".box");
 let draggedBox = null;
 
 boxes.forEach(box => {
-  // Start dragging
   box.addEventListener("dragstart", e => {
     draggedBox = box;
     e.dataTransfer.effectAllowed = "move";
 
-    // Create a ghost element with same background
     const ghost = document.createElement("div");
     ghost.style.width = "120px";
     ghost.style.height = "250px";
@@ -18,16 +16,14 @@ boxes.forEach(box => {
     ghost.style.opacity = "0.8";
 
     document.body.appendChild(ghost);
-    e.dataTransfer.setDragImage(ghost, 60, 125); // center of the ghost
+    e.dataTransfer.setDragImage(ghost, 60, 125); 
     setTimeout(() => document.body.removeChild(ghost), 0);
   });
 
-  // Allow dropping
   box.addEventListener("dragover", e => {
     e.preventDefault();
   });
 
-  // Swap backgrounds + labels
   box.addEventListener("drop", () => {
     if (draggedBox && draggedBox !== box) {
       let tempBg = box.style.backgroundImage;
